@@ -1,6 +1,7 @@
 const express = require("express")
 const cors = require("cors")
 const mongoose = require("mongoose")
+const path = require("path")
 require("dotenv").config()
 
 const router = require("./routes/router")
@@ -21,6 +22,11 @@ const corsOptions = {
 app.use(cors(corsOptions))
 
 app.use("/", router)
+
+app.use(express.static(path.join(__dirname, "..", "..", "/client/public")))
+app.get("*", (req, res) =>
+  res.sendFile(path.join(__dirname, "..", "..", "client/dist/index.html"))
+)
 
 const port = process.env.PORT || 4000
 
